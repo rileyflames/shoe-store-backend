@@ -6,11 +6,13 @@ import createShoe from '../../controllers/shoes/createShoe.js';
 import updateShoe from '../../controllers/shoes/updateShoe.js';
 import deleteShoe from '../../controllers/shoes/deleteShoe.js';
 
+import { catchAsync } from '../../utils/catchAsync.js'
+
 const router = express.Router();
 
 router.get('/', getAllShoes);
 router.get('/:id', getShoeById);
-router.post('/', createShoe);
+router.post('/', catchAsync(createShoe));
 router.put('/:id', updateShoe);
 router.delete('/:id', deleteShoe);
 

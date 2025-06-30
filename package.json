@@ -1,0 +1,63 @@
+{
+  "name": "shoe-store-backend",
+  "version": "1.0.0",
+  "description": "REST API backend for a shoe store application",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rileyflames/shoe-store-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rileyflames/shoe-store-backend/issues"
+  },
+  "homepage": "https://github.com/rileyflames/shoe-store-backend#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^17.0.0",
+    "express": "^5.1.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.5.1",
+    "express-slow-down": "^2.1.0",
+    "express-status-monitor": "^1.3.4",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.16.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.10",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0",
+    "xss": "^1.0.15",
+    "xss-clean": "^0.1.4",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "eslint": "^9.30.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "globals": "^16.2.0",
+    "jest": "^30.0.3",
+    "prettier": "^3.6.2",
+    "supertest": "^7.1.1"
+  }
+}

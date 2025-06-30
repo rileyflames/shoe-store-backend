@@ -12,7 +12,7 @@ export default defineConfig([
     extends: ['js/recommended'],
     rules: {
       semi: ['warn', 'never'],
-      quotes: ['warn', 'single'],
+      quotes: ['warn', 'single', 'double'],
       'no-unused-vars': 'warn',
       'no-console': 'off',
     },

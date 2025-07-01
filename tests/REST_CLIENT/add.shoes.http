@@ -1,0 +1,63 @@
+### Shoe 1 - Adidas Ultraboost
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "Ultraboost 22",
+  "brand": "Adidas",
+  "description": "High-performance running shoe with energy return.",
+  "price": 18000,
+  "sizes": [8, 9, 10],
+  "category": "Running",
+  "colors": ["Black", "Grey"],
+  "inStock": true,
+  "images": ["https://example.com/ultraboost.jpg"]
+}
+
+### Shoe 2 - Converse Chuck Taylor
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "Chuck Taylor All Star",
+  "brand": "Converse",
+  "description": "Classic everyday sneaker loved for decades.",
+  "price": 5500,
+  "sizes": [6, 7, 8],
+  "category": "Casual",
+  "colors": ["White", "Red"],
+  "inStock": false,
+  "images": ["https://example.com/converse.jpg"]
+}
+
+### Shoe 3 - Puma RS-X
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "RS-X³ Puzzle",
+  "brand": "Puma",
+  "description": "Bold retro-futuristic design for lifestyle wear.",
+  "price": 12000,
+  "sizes": [9, 10, 11],
+  "category": "Lifestyle",
+  "colors": ["Blue", "Yellow"],
+  "inStock": true,
+  "images": ["https://example.com/rsx.jpg"]
+}
+
+### Shoe 4 - New Balance 550
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "550",
+  "brand": "New Balance",
+  "description": "Vintage basketball shoe turned modern streetwear staple.",
+  "price": 13000,
+  "sizes": [8, 9],
+  "category": "Basketball",
+  "colors": ["Green", "White"],
+  "inStock": true,
+  "images": ["https://example.com/nb550.jpg"]
+}

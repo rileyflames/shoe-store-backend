@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --detectOpenHandles --forceExit ",
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "lint": "eslint .",
@@ -54,6 +54,7 @@
     "eslint-plugin-prettier": "^5.5.1",
     "globals": "^16.2.0",
     "jest": "^30.0.3",
+    "mongodb-memory-server": "^10.1.4",
     "prettier": "^3.6.2",
     "supertest": "^7.1.1"
   }

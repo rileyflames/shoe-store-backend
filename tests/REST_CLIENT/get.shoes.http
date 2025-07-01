@@ -1,0 +1,20 @@
+### 🧪 Basic fetch (first page)
+GET http://localhost:5000/api/shoes?page=1&limit=3
+
+### 🧪 Filter by brand
+GET http://localhost:5000/api/shoes?brand=Nike
+
+### 🧪 Filter by category
+GET http://localhost:5000/api/shoes?category=Running
+
+### 🧪 Search by text
+GET http://localhost:5000/api/shoes?search=pegasus
+
+### 🧪 Filter by size (e.g., 9)
+GET http://localhost:5000/api/shoes?size=9
+
+### 🧪 Price range
+GET http://localhost:5000/api/shoes?minPrice=10000&maxPrice=15000
+
+### 🧪 Sort by price ascending
+GET http://localhost:5000/api/shoes?sortBy=price&order=asc

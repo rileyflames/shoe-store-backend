@@ -1,0 +1,89 @@
+### ✅ 1. Valid request - should return 201
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "Pegasus 40",
+  "brand": "Nike",
+  "description": "Responsive running shoe",
+  "price": 14999,
+  "sizes": [7, 8, 9],
+  "category": "Running",
+  "colors": ["Black", "White"],
+  "inStock": true,
+  "images": ["https://example.com/shoe1.jpg"]
+}
+
+### ❌ 2. Missing required name
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "brand": "Nike",
+  "description": "No name",
+  "price": 10000,
+  "sizes": [8],
+  "category": "Running",
+  "colors": ["Blue"],
+  "inStock": true
+}
+
+### ❌ 3. Invalid price type (string)
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "ZoomX",
+  "brand": "Nike",
+  "description": "Elite runner",
+  "price": "14000",
+  "sizes": [8],
+  "category": "Racing",
+  "colors": ["Green"],
+  "inStock": true
+}
+
+### ❌ 4. Invalid size values
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "Wild shoe",
+  "brand": "Nike",
+  "description": "Crazy sizes",
+  "price": 10000,
+  "sizes": [0, 21],
+  "category": "Fashion",
+  "colors": ["Pink"],
+  "inStock": true
+}
+
+### ❌ 5. inStock as string
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "Logic Error Shoe",
+  "brand": "Nike",
+  "description": "String bool",
+  "price": 9999,
+  "sizes": [9],
+  "category": "Tech",
+  "colors": ["Red"],
+  "inStock": "yes"
+}
+
+### ✅ 6. No images provided
+POST http://localhost:5000/api/shoes
+Content-Type: application/json
+
+{
+  "name": "Default Image Shoe",
+  "brand": "Nike",
+  "description": "Image test",
+  "price": 11000,
+  "sizes": [8],
+  "category": "Training",
+  "colors": ["White"],
+  "inStock": true
+}

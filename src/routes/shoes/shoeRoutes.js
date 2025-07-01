@@ -10,10 +10,14 @@ import { catchAsync } from '../../utils/catchAsync.js'
 
 const router = express.Router();
 
-router.get('/', getAllShoes);
+router.get('/',catchAsync(getAllShoes));
+
 router.get('/:id', getShoeById);
+
 router.post('/', catchAsync(createShoe));
+
 router.put('/:id', updateShoe);
+
 router.delete('/:id', deleteShoe);
 
 export default router;

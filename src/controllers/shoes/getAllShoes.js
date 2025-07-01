@@ -1,69 +1,69 @@
-import Shoe from "../../models/shoe.model.js"
+import Shoe from '../../models/shoe.model.js';
+import { catchAsync } from '../../utils/catchAsync.js';
 
-const getAllShoes = async ( req, res )=>{
-   
-    const {
-        page = 1,
-        limit = 12,
-        brand,
-        category,
-        inStock,
-        minPrice,
-        maxPrice,
-        size,
-        search,
-        sortBy = 'createdAt',
-        order = 'desc'
-    } =req.query
+const getAllShoes = catchAsync(async (req, res) => {
+  const {
+    page = 1,
+    limit = 12,
+    brand,
+    category,
+    inStock,
+    minPrice,
+    maxPrice,
+    size,
+    search,
+    sortBy = 'createdAt',
+    order = 'desc',
+    colors,
+  } = req.query;
 
-    //1 Build filters
-    const filters = {}
+  // 1 Build filters
+  const filters = {};
 
-    if(brand) filters.brand = brand
-    if(category) filters.category = category
-    if(inStock !== undefined) filters.inStock = inStock === 'true'
+  if (brand) filters.brand = { $regex: brand, $options: 'i' };
+  if (category) filters.category = { $regex: category, $options: 'i' };
+  if (inStock !== undefined) filters.inStock = inStock === 'true';
+  if (minPrice || maxPrice) {
+    filters.price = {};
+    if (minPrice) filters.price.$gte = Number(minPrice);
+    if (maxPrice) filters.price.$lte = Number(maxPrice);
+  }
+  if (size) {
+    filters.sizes = { $in: [Number(size)] };
+  }
+  if (search) {
+    filters.$or = [
+      { name: { $regex: search, $options: 'i' } },
+      { description: { $regex: search, $options: 'i' } },
+      { brand: { $regex: search, $options: 'i' } },
+    ];
+  }
+  if (colors) {
+    const colorsArray = Array.isArray(colors) ? colors : [colors];
+    filters.colors = { $all: colorsArray };
+  }
 
-    //2 Price range
-    if(minPrice || maxPrice){
-        filters.price = {}
-        if( minPrice ) filters.price.$gte = Number(minPrice)
-        if( maxPrice ) filters.price.$lte = Number(maxPrice)
-    }
+  // 2 Pagination
+  const skip = (Number(page) - 1) * Number(limit);
 
-    // 3 Size filter
-    if (size) {
-        filters.sizes = { $in:[Number(size)]} // returns any shoe with that size
-    }
+  // 3 Sorting
+  const sortOptions = { [sortBy]: order === 'asc' ? 1 : -1 };
 
-    //4 Full-text search on name + description 
-    if(search) {
-        filters.$or = [
-            { name: new RegExp(search, 'i')},
-            { description: new RegExp(search, 'i')}
-        ]
-    }
+  // 4 Query DB
+  const shoes = await Shoe.find(filters)
+    .sort(sortOptions)
+    .skip(skip)
+    .limit(Number(limit))
+    .lean();
 
-    // 5 Pagination
-    const skip = (Number(page) - 1) * Number(limit)
+  const total = await Shoe.countDocuments(filters);
 
-    //6 Sorting
-    const sortOptions = { [sortBy]: order === 'asc' ? 1: -1 }
+  res.status(200).json({
+    total,
+    page: Number(page),
+    pages: Math.ceil(total / limit) || 0,
+    results: shoes,
+  });
+});
 
-    //7 Query DB
-    const shoes = await Shoe.find(filters)
-        .sort(sortOptions)
-        .skip(skip)
-        .limit(Number(limit))
-
-    const total = await Shoe.countDocuments(filters)
-
-    res.json({
-        total,
-        page: Number(page),
-        pages: Math.ceil(total / limit),
-        results: shoes,
-    })
-}
-
-
-export default getAllShoes
+export default getAllShoes;

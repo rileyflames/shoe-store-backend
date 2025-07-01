@@ -9,6 +9,7 @@ const ShoeSchema = new Schema(
       type: String,
       required: true,
       trim: true,
+      unique: true, // Enforce unique shoe names
     },
     brand: {
       type: String,
@@ -20,29 +21,29 @@ const ShoeSchema = new Schema(
       required: true,
     },
     price: {
-      type: Number, // Stored in cents (e.g. 14999 = $149.99)
+      type: Number, // Stored in cents (e.g., 14999 = $149.99)
       required: true,
       min: 0,
     },
     sizes: {
-  type: [Number],
-  required: true,
-  validate: [
-    {
-      validator: function (arr) {
-        return arr.length > 0;
-      },
-      message: 'At least one size must be specified.',
+      type: [Number],
+      required: true,
+      validate: [
+        {
+          validator: function (arr) {
+            return arr.length > 0;
+          },
+          message: 'At least one size must be specified.',
+        },
+        {
+          validator: function (arr) {
+            return arr.every((size) => size > 0 && size < 20);
+          },
+          message: 'Sizes must be greater than 0 and less than 20.',
+        },
+      ],
     },
-    {
-      validator: function (arr) {
-        return arr.every((size) => size > 0 && size < 20);
-      },
-      message: 'Sizes must be greater than 0 and less than 20.',
-    },
-  ],
-},
- category: {
+    category: {
       type: String,
       required: true,
       trim: true,

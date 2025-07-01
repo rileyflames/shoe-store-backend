@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import Shoe from '../../models/shoe.model.js'
-import { createShoeSchema } from '../../validation/shoe.schema.js'
+import { createShoeSchema } from '../../validation/shoe.schema.js';
+import Shoe from '../../models/shoe.model.js';
 
 
 
@@ -11,9 +11,8 @@ const createShoe = async ( req, res )=>{
 
    if(!parsed.success){
     // turn Zod errors into readable message
-    const issues = parsed.error.errors.map( e => e.message)
-    res.status(400)
-    throw new Error(issues.join(', '))
+    const issues = parsed.error.errors.map( e => e.message);
+    return res.status(400).json({ message: issues.join(', ') });
    }
 
    const validatedData = parsed.data

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import Shoe from "../../models/shoe.model.js";
-import { success } from "zod/v4";
 
 const restoreShoe = async ( req, res ) => {
     // get id
@@ -15,7 +14,7 @@ const restoreShoe = async ( req, res ) => {
     // Restore the shoe (set isDeleted to false)
     const shoe = await Shoe.findByIdAndUpdate(
         id,
-        { $set: {isDeleted: false} },
+        { $set: { isDeleted: false, restoredAt: new Date(), deletedAt: null } },
         { new: true }
     )
 
@@ -31,4 +30,4 @@ const restoreShoe = async ( req, res ) => {
     })
 }
 
-export default restoreShoe 
+export default restoreShoe

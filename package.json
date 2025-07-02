@@ -27,6 +27,7 @@
   "homepage": "https://github.com/rileyflames/shoe-store-backend#readme",
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^1.41.3",
     "compression": "^1.8.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
@@ -40,6 +41,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.1",
     "morgan": "^1.10.0",
+    "multer": "^2.0.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemon": "^3.1.10",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",

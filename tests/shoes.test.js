@@ -374,4 +374,73 @@ describe('Shoes API', () => {
       expect(response.body.results.find(s => s._id === String(createdShoe._id))).toBeUndefined();
     });
   });
+
+  describe('DELETE /api/shoes/:id', () => {
+    let createdShoe;
+
+    beforeEach(async () => {
+      await Shoe.deleteMany({});
+      createdShoe = await Shoe.create({ ...validShoe, name: 'HardDeleteTestShoe' });
+    });
+
+    it('should hard delete a shoe successfully', async () => {
+      const response = await request(app).delete(`/api/shoes/${createdShoe._id}`);
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.message).toContain('permanently deleted');
+
+      // Confirm in DB
+      const found = await Shoe.findById(createdShoe._id);
+      expect(found).toBeNull();
+    });
+
+    it('should return 400 for invalid shoe ID', async () => {
+      const response = await request(app).delete('/api/shoes/invalid-id');
+      expect(response.status).toBe(400);
+      expect(response.body.message).toContain('Invalid shoe ID');
+    });
+
+    it('should return 404 if shoe does not exist', async () => {
+      const nonExistentId = '507f1f77bcf86cd799439011';
+      const response = await request(app).delete(`/api/shoes/${nonExistentId}`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toContain('Shoe not found');
+    });
+  });
+
+  describe('PATCH /api/shoes/:id/restore', () => {
+    let createdShoe;
+
+    beforeEach(async () => {
+      await Shoe.deleteMany({});
+      createdShoe = await Shoe.create({ ...validShoe, isDeleted: true, name: 'RestoreTestShoe' });
+    });
+
+    it('should restore a soft-deleted shoe', async () => {
+      const response = await request(app)
+        .patch(`/api/shoes/${createdShoe._id}/restore`);
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.isDeleted).toBe(false);
+
+      // Confirm in DB
+      const shoeInDb = await Shoe.findById(createdShoe._id);
+      expect(shoeInDb.isDeleted).toBe(false);
+    });
+
+    it('should return 400 for invalid shoe ID', async () => {
+      const response = await request(app)
+        .patch('/api/shoes/invalid-id/restore');
+      expect(response.status).toBe(400);
+      expect(response.body.message).toContain('Invalid shoe ID');
+    });
+
+    it('should return 404 if shoe does not exist', async () => {
+      const nonExistentId = '507f1f77bcf86cd799439011';
+      const response = await request(app)
+        .patch(`/api/shoes/${nonExistentId}/restore`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toContain('Shoe not found');
+    });
+  });
 });

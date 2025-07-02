@@ -1,0 +1,33 @@
+### Update Shoe - Change Price and In Stock
+PUT http://localhost:5000/api/shoes/<SHOE_ID>
+Content-Type: application/json
+
+{
+  "price": 20000,
+  "inStock": false
+}
+
+### Update Shoe - Change Name and Colors
+PUT http://localhost:5000/api/shoes/<SHOE_ID>
+Content-Type: application/json
+
+{
+  "name": "Ultraboost 23",
+  "colors": ["Black", "White", "Blue"]
+}
+
+### Update Shoe - Invalid ID
+PUT http://localhost:5000/api/shoes/invalid-id
+Content-Type: application/json
+
+{
+  "price": 9999
+}
+
+### Update Shoe - Invalid Field Type
+PUT http://localhost:5000/api/shoes/<SHOE_ID>
+Content-Type: application/json
+
+{
+  "price": "not-a-number"
+}

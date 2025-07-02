@@ -236,4 +236,99 @@ describe('Shoes API', () => {
       expect(response.body.message).toContain('Shoe name already exists');
     });
   });
+
+  describe('GET /api/shoes/:id', () => {
+    let createdShoe;
+
+    beforeEach(async () => {
+      await Shoe.deleteMany({});
+      createdShoe = await Shoe.create(validShoe);
+    });
+
+    it('should return a shoe for a valid ID', async () => {
+      const response = await request(app).get(`/api/shoes/${createdShoe._id}`);
+      expect(response.status).toBe(200);
+      expect(response.body).toMatchObject({
+        name: validShoe.name,
+        brand: validShoe.brand,
+        price: validShoe.price,
+      });
+    });
+
+    it('should return 404 if shoe does not exist', async () => {
+      const nonExistentId = '507f1f77bcf86cd799439011';
+      const response = await request(app).get(`/api/shoes/${nonExistentId}`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toContain('Shoe not found');
+    });
+
+    it('should return 400 for invalid shoe ID', async () => {
+      const response = await request(app).get('/api/shoes/invalid-id');
+      expect(response.status).toBe(400);
+      expect(response.body.message).toContain('Invalid shoe ID');
+    });
+  });
+
+  describe('PUT /api/shoes/:id', () => {
+    let createdShoe;
+
+    beforeEach(async () => {
+      await Shoe.deleteMany({});
+      createdShoe = await Shoe.create({ ...validShoe, name: 'UpdateTestShoe' });
+    });
+
+    it('should update a shoe with valid data', async () => {
+      const response = await request(app)
+        .put(`/api/shoes/${createdShoe._id}`)
+        .send({ price: 9999, inStock: false });
+      expect(response.status).toBe(200);
+      expect(response.body.price).toBe(9999);
+      expect(response.body.inStock).toBe(false);
+    });
+
+    it('should update a shoe with partial data', async () => {
+      const response = await request(app)
+        .put(`/api/shoes/${createdShoe._id}`)
+        .send({ name: 'Updated Name' });
+      expect(response.status).toBe(200);
+      expect(response.body.name).toBe('Updated Name');
+    });
+
+    it('should return 400 for invalid MongoDB ID', async () => {
+      const response = await request(app)
+        .put('/api/shoes/invalid-id')
+        .send({ price: 1000 });
+      expect(response.status).toBe(400);
+      expect(response.body.message).toContain('Invalid shoe ID');
+    });
+
+    it('should return 404 if shoe does not exist', async () => {
+      const nonExistentId = '507f1f77bcf86cd799439011';
+      const response = await request(app)
+        .put(`/api/shoes/${nonExistentId}`)
+        .send({ price: 1000 });
+      expect(response.status).toBe(404);
+      expect(response.body.message).toContain('Shoe not found');
+    });
+
+    it('should return 400 for invalid data (Zod validation)', async () => {
+      const response = await request(app)
+        .put(`/api/shoes/${createdShoe._id}`)
+        .send({ price: -100, images: ['not-a-url'] });
+      expect(response.status).toBe(400);
+      expect(response.body.message).toContain('Price must be a positive integer');
+      expect(response.body.message).toContain('must be a valid URL');
+    });
+
+    it('should return 400 for duplicate name', async () => {
+      // Create another shoe with a different name
+      const otherShoe = await Shoe.create({ ...validShoe, name: 'UniqueName' });
+      // Try to update createdShoe to have the same name as otherShoe
+      const response = await request(app)
+        .put(`/api/shoes/${createdShoe._id}`)
+        .send({ name: 'UniqueName' });
+      expect(response.status).toBe(400);
+      expect(response.body.message).toContain('Shoe name already exists');
+    });
+  });
 });

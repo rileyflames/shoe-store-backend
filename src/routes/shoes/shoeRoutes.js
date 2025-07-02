@@ -12,11 +12,11 @@ const router = express.Router();
 
 router.get('/',catchAsync(getAllShoes));
 
-router.get('/:id', getShoeById);
+router.get('/:id',catchAsync(getShoeById));
 
 router.post('/', catchAsync(createShoe));
 
-router.put('/:id', updateShoe);
+router.put('/:id',catchAsync(updateShoe));
 
 router.delete('/:id', deleteShoe);
 

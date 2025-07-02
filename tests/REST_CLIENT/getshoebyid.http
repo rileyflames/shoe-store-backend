@@ -1,0 +1,8 @@
+### Valid shoe
+GET http://localhost:5000/api/shoes/6863c4aebc05a788999fb103
+
+### Invalid ObjectId
+GET http://localhost:5000/api/shoes/abc123
+
+### Nonexistent but valid ObjectId
+GET http://localhost:5000/api/shoes/64d1a3caaedc6e6a88443321

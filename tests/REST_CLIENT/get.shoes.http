@@ -18,3 +18,7 @@ GET http://localhost:5000/api/shoes?minPrice=10000&maxPrice=15000
 
 ### 🧪 Sort by price ascending
 GET http://localhost:5000/api/shoes?sortBy=price&order=asc
+
+
+### get all shoes
+GET http://localhost:5000/api/shoes

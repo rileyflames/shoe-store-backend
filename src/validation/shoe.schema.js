@@ -10,5 +10,7 @@ export const createShoeSchema = z.object({
   category: z.string().min(1, 'Category is required'),
   colors: z.array(z.string()).min(1, 'At least one color is required'),
   inStock: z.boolean(),
-  images: z.array(z.string().url()).default([]),
+  images: z.array(
+    z.string().url({ message: 'must be a valid URL' })
+  ).optional(),
 });

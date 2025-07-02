@@ -64,6 +64,10 @@ const ShoeSchema = new Schema(
       type: [String],
       default: [],
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true, // Automatically adds createdAt & updatedAt

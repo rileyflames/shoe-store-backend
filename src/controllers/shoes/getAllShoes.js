@@ -50,13 +50,13 @@ const getAllShoes = catchAsync(async (req, res) => {
   const sortOptions = { [sortBy]: order === 'asc' ? 1 : -1 };
 
   // 4 Query DB
-  const shoes = await Shoe.find(filters)
+  const shoes = await Shoe.find({ isDeleted: { $ne: true }, ...filters })
     .sort(sortOptions)
     .skip(skip)
     .limit(Number(limit))
     .lean();
 
-  const total = await Shoe.countDocuments(filters);
+  const total = await Shoe.countDocuments({ isDeleted: { $ne: true }, ...filters });
 
   res.status(200).json({
     total,

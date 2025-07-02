@@ -331,4 +331,47 @@ describe('Shoes API', () => {
       expect(response.body.message).toContain('Shoe name already exists');
     });
   });
+
+  describe('PATCH /api/shoes/:id/soft-delete', () => {
+    let createdShoe;
+
+    beforeEach(async () => {
+      await Shoe.deleteMany({});
+      createdShoe = await Shoe.create({ ...validShoe, name: 'SoftDeleteTestShoe' });
+    });
+
+    it('should soft delete a shoe successfully', async () => {
+      const response = await request(app)
+        .patch(`/api/shoes/${createdShoe._id}/soft-delete`);
+      expect(response.status).toBe(200);
+      expect(response.body.success).toBe(true);
+      expect(response.body.data.isDeleted).toBe(true);
+
+      // Confirm in DB
+      const shoeInDb = await Shoe.findById(createdShoe._id);
+      expect(shoeInDb.isDeleted).toBe(true);
+    });
+
+    it('should return 400 for invalid shoe ID', async () => {
+      const response = await request(app)
+        .patch('/api/shoes/invalid-id/soft-delete');
+      expect(response.status).toBe(400);
+      expect(response.body.message).toContain('Invalid shoe ID');
+    });
+
+    it('should return 404 if shoe does not exist', async () => {
+      const nonExistentId = '507f1f77bcf86cd799439011';
+      const response = await request(app)
+        .patch(`/api/shoes/${nonExistentId}/soft-delete`);
+      expect(response.status).toBe(404);
+      expect(response.body.message).toContain('Shoe not found');
+    });
+
+    it('should not return soft-deleted shoes in GET /api/shoes', async () => {
+      // Soft delete the shoe
+      await request(app).patch(`/api/shoes/${createdShoe._id}/soft-delete`);
+      const response = await request(app).get('/api/shoes');
+      expect(response.body.results.find(s => s._id === String(createdShoe._id))).toBeUndefined();
+    });
+  });
 });

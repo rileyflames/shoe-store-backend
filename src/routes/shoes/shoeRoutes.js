@@ -4,7 +4,7 @@ import getAllShoes from '../../controllers/shoes/getAllShoes.js';
 import getShoeById from '../../controllers/shoes/getShoeById.js';
 import createShoe from '../../controllers/shoes/createShoe.js';
 import updateShoe from '../../controllers/shoes/updateShoe.js';
-import deleteShoe from '../../controllers/shoes/deleteShoe.js';
+import softDeleteShoe from '../../controllers/shoes/softDeleteShoe.js';
 
 import { catchAsync } from '../../utils/catchAsync.js'
 
@@ -18,6 +18,6 @@ router.post('/', catchAsync(createShoe));
 
 router.put('/:id',catchAsync(updateShoe));
 
-router.delete('/:id', deleteShoe);
+router.patch('/:id/soft-delete', catchAsync(softDeleteShoe));
 
 export default router;

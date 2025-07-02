@@ -6,12 +6,15 @@ import updateShoe from '../../controllers/shoes/updateShoe.js';
 import softDeleteShoe from '../../controllers/shoes/softDeleteShoe.js';
 import deleteShoe from '../../controllers/shoes/deleteShoe.js'
 import restoreShoe from '../../controllers/shoes/restoreShoe.js';
+import suggestShoes from '../../controllers/shoes/suggestShoes.js';
 
 import { catchAsync } from '../../utils/catchAsync.js'
 
 const router = express.Router();
 
 router.get('/',catchAsync(getAllShoes));
+
+router.get('/suggest', catchAsync(suggestShoes));
 
 router.get('/:id',catchAsync(getShoeById));
 
